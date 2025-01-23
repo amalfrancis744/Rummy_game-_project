@@ -2,6 +2,7 @@ const express = require('express');
 
 const asyncHandler = require('../util/async-handler');
 const router = express.Router();
+const torunament = require('../model/tournament/tournament');
 
 const rummyRoomCacheService = require('../services/rummy-room-cache-service');
 const rummyGameplayCacheService = require('../services/rummy-gameplay-cache-service');
@@ -36,30 +37,7 @@ router.post('/initialize',asyncHandler(async (req) => {
   return { gameData };
 }));
 
-router.post('/start', permission.isSystemCall, asyncHandler(async (req) => {
-  const result = await startCountdown(req.body.gameId);
-  return { result };
-}));
 
-router.post('/toss-winner', permission.isSystemCall, asyncHandler(async (req) => {
-  const winner = await tossWinner(req.body.gameId);
-  return { winner };
-}));
-
-router.post('/play-card', permission.isSystemCall, asyncHandler(async (req) => {
-  const result = await playCard(req.body.gameId, req.body.card);
-  return { result };
-}));
-
-router.post('/draw-card', permission.isSystemCall, asyncHandler(async (req) => {
-  const result = await drawCard(req.body.gameId);
-  return { result };
-}));
-
-router.post('/end-turn', permission.isSystemCall, asyncHandler(async (req) => {
-  const result = await endTurn(req.body.gameId);
-  return { result };
-}));
 
 router.post('/leave-game', asyncHandler(async (req, res) => {
   const { roomId, userId } = req.body;
@@ -92,10 +70,26 @@ router.post('/submit', asyncHandler(async (req, res) => {
   });
 }));
 
-router.post('/result', asyncHandler(async (req, res) => {
-  const { roomId, isFinal } = req.body;
-  const results = await calResult(roomId, isFinal);
-  res.json({ results });
+
+router.post('/get_rummy_config', asyncHandler(async (req, res) => {
+  const { tournament_id, auth_key } = req.body;
+
+  // Validate the input
+  if (!tournament_id || !auth_key) {
+    return res.status(400).json({ status: 0, message: 'Invalid parameters' });
+  }
+
+  // Fetch the table configuration from the database
+  const tableConfig = await  torunament.findOne({ _id: tournament_id });
+
+  if (!tableConfig) {
+    return res.status(404).json({ status: 0, message: 'Table not found' });
+  }
+
+  // Return the table configuration
+  res.json({ status: 1, data: tableConfig });
 }));
+
+
 
 module.exports = router;

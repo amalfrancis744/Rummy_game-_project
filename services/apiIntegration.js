@@ -6,30 +6,38 @@ var FormData = require('form-data');
 
 
 //Fetch table 
-async function fetchTable( url , data){
+async function fetchTable(url, data) {
     var form = new FormData();
 
-    form.append('tournament_id' , data.tournamentId );
+    form.append('tournament_id', data.tournamentId);
     form.append('auth_key', data.token);
 
     let config = {
-        method : "post",
+        method: 'post',
         maxBodyLength: Infinity,
-        url:  `${process.env.FRONT_URL}${url}`,
-        headers : {
-            'Accept': 'application/json', 
-            Authorization : `Bearer ${data.token}`,
+        url: `${process.env.FRONT_URL}${url}`,
+        headers: {
+            'Accept': 'application/json',
+            Authorization: `Bearer ${data.token}`,
             ...form.getHeaders()
         },
-        data : form
+        data: form
+    };
 
+    try {
+        let response = await axios.request(config);
+        // console.log("Response", response);
+        if (response.status === 200 && response.data.status === 1) {
+            return response.data.data;
+        } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error fetching table:', error);
+        throw error;
     }
-   let response = await axios.request(config)
-            // console.log("Response" , response);
-        if(response.status === 200 && response.data.status === 1) return response.data.data
-
-
 }
+
 exports.fetchTable = fetchTable;
 
 

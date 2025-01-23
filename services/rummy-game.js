@@ -342,37 +342,37 @@ async function initGame(roomCache, io) {
       }
     }
 
-    // let walletArray = [];
-    // //Deduct wallet amount
-    // for(let user of room.players){
+    let walletArray = [];
+    //Deduct wallet amount
+    for(let user of room.players){
 
-    //   // let userExists = await userQuery.getUser({_id : user.id});
-    //   let userExists = await requestAPI.verifyUser("/api/v1/verify_user", user.token )
+      // let userExists = await userQuery.getUser({_id : user.id});
+      let userExists = await requestAPI.verifyUser("/api/v1/verify_user", user.token )
 
-    //   let tableDetails = await requestAPI.fetchTable("/api/v1/get_rummy_config" , {token : user.token , tournamentId : room.tournamentId})
+      let tableDetails = await requestAPI.fetchTable("/api/v1/get_rummy_config" , {token : user.token , tournamentId : room.tournamentId})
 
-    //   // let tableDetails = await tableQuery.getTable({_id : room.tournamentId});
+      // let tableDetails = await tableQuery.getTable({_id : room.tournamentId});
 
-    //   console.log(" Fetching entry fee--------->" , tableDetails)
+      console.log(" Fetching entry fee--------->" , tableDetails)
 
-    //   let deductEntryFee = await userQuery.updateUser(userExists._id , {main_wallet : userExists.main_wallet - tableDetails.entry_fee});
+      let deductEntryFee = await userQuery.updateUser(userExists._id , {main_wallet : userExists.main_wallet - tableDetails.entry_fee});
 
-    //   let updateUser = await userQuery.getUser({_id: userExists._id });
+      let updateUser = await userQuery.getUser({_id: userExists._id });
 
-    //   console.log("going to deduct wallet amount--->" , updateUser);
+      console.log("going to deduct wallet amount--->" , updateUser);
 
-    //   let userId = user.id;
+      let userId = user.id;
 
-    //   let obj = {
-    //     [userId] : updateUser.main_wallet
-    //   }
-    //   // io.to(updateUser._id.toString()).emit("remitWalletAmount",updateUser.main_wallet)
-    //   walletArray.push(obj)
+      let obj = {
+        [userId] : updateUser.main_wallet
+      }
+      // io.to(updateUser._id.toString()).emit("remitWalletAmount",updateUser.main_wallet)
+      walletArray.push(obj)
 
-    // }
-    //   emit(room.roomId , "remitWalletAmount",walletArray);
+    }
+      emit(room.roomId , "remitWalletAmount",walletArray);
 
-    //   walletArray=[];
+      walletArray=[];
 
     await start(room);
     await publishGamePlayEvent(room);
@@ -587,7 +587,7 @@ async function handleGameTimeOver(roomId, currentPlayerId) {
     console.log(
       "players did not submitted cards",
       room.roomId,
-      notSubmittedPlayers
+      notSubmittedPlayers.length
     );
     await Promise.all(
       notSubmittedPlayers.map(async (e) => {
@@ -1297,26 +1297,39 @@ async function submit(room, data, userId, callback) {
     "--------------------------Directtly going to call result---------------------",
     submitCounter
   );
-  if (submitCounter == 0) {
-    console.log("calResult called---------->");
-    await calResult(roomId, true);
-  }
+  // if (submitCounter == 0) {
+  //   console.log("calResult called---------->");
+  //   await calResult(roomId, true);
+  // }
+
+  await calResult(roomId, true);
 } //result will be declare from here
 
 async function calResult(roomId, submit) {
   console.log("Calling Cal result-------------->");
   const updatedRoomData = await rummyGameplayCacheService.getRoomData(roomId);
-  console.log(
-    "Winner array in updated room",
-    updatedRoomData.winner,
-    " players length--> ",
-    updatedRoomData.players,
-    "Price",
-    updatedRoomData
-  );
+
+  console.log("updated Room data after submit and next result--->",updatedRoomData.rummyType);
+  // console.log(
+  //   "Winner array in updated room",
+  //   updatedRoomData.winner,
+  //   " players length--> ",
+  //   updatedRoomData.players,
+  //   "Price",
+  //   updatedRoomData
+  // );
+
+  console.log("sdasdjdndlksadl lkkmlml--->>",updatedRoomData.rummyType)
+
+  console.log("check both are true", updatedRoomData.rummyType === constants.RUMMY_TYPE.POINT, )
 
   if (updatedRoomData.rummyType === constants.RUMMY_TYPE.POINT) {
+
+    console.log("Amal Francis--->", )
+
     const submitPlayers = [];
+
+
     let price = 0;
     // for(let element of updatedRoomData.players){
     //    price += updatedRoomData[getScoreKey(element.userId)] * updatedRoomData.rupeePerPoint;
@@ -1325,12 +1338,29 @@ async function calResult(roomId, submit) {
     let activePlayer = updatedRoomData.players.find(
       (player) => !player.disqualified
     );
-    let tableExists = await requestAPI.fetchTable("/api/v1/get_rummy_config", {
-      token: activePlayer.token,
-      tournamentId: updatedRoomData.tournamentId,
-    });
 
-    updatedRoomData["price"] = tableExists.win_amount;
+    try {
+      console.log("Active Player--->", activePlayer);
+      if (!activePlayer || !activePlayer.token) {
+        throw new Error("Active player or token is not defined");
+      }
+    
+      if (!updatedRoomData || !updatedRoomData.tournamentId) {
+        throw new Error("Updated room data or tournamentId is not defined");
+      }
+    
+      let tableExists = await requestAPI.fetchTable("/api/v1/games/get_rummy_config", {
+        token: activePlayer.token,
+        tournamentId: updatedRoomData.tournamentId,
+      });
+    
+      // console.log("Table Exists--->", tableExists);
+    } catch (error) {
+      console.error("Error fetching table:", error);
+    }
+
+    // updatedRoomData["price"] = tableExists.win_amount;
+     updatedRoomData["price"] = 200
     console.log(
       "Room Price in  updated room cal result --->",
       updatedRoomData["price"]
@@ -1398,7 +1428,7 @@ async function calResult(roomId, submit) {
     let activePlayer = updatedRoomData.players.find(
       (player) => !player.disqualified
     );
-    let tableExists = await requestAPI.fetchTable("/api/v1/get_rummy_config", {
+    let tableExists = await requestAPI.fetchTable("/api/v1/games/get_rummy_config", {
       token: activePlayer.token,
       tournamentId: updatedRoomData.tournamentId,
     });
@@ -1945,6 +1975,7 @@ async function publishGamePlayEvent(room) {
 
     //     }),
     //  }, constants.SERVICES.game);
+
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error("publishGamePlayEvent", room.roomId, error);
@@ -2191,4 +2222,5 @@ module.exports = {
   getIsEliminatedKey,
   getSplitPrizeKey,
   startCountdown,
+  calResult,
 };

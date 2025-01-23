@@ -65,9 +65,11 @@ function validateCards(groupOfCards, jokerCards) {
       groupOfCards[i].type = constants.SEQUENCE.PURE_SEQUENCE;
       groupOfCards[i].isValid = true;
       hasPureSequence = true;
+      console.log("ispure sequence valid : ",hasPureSequence)
     } else if (checkSet(cards, jokerCards)) {
       groupOfCards[i].type = constants.SEQUENCE.SET;
       groupOfCards[i].isValid = true;
+
     } else if (isSecondarySequence(cards, jokerCards) ) {
       {
         groupOfCards[i].type = constants.SEQUENCE.SEC_SEQUENCE;
@@ -80,7 +82,11 @@ function validateCards(groupOfCards, jokerCards) {
       groupScore = calNotValidCardScore(groupOfCards,jokerCards);
     }
     groupOfCards[i].groupScore = groupScore;
+
+   
   }
+
+  console.log("checking all file status groupofcards",groupOfCards);
 
   console.log("Group Score is",groupScore);
 
@@ -253,6 +259,7 @@ function isSecondarySequence(input, joker) {
 }
 
 function isValidSet(groupOfCards, jokerCards) {
+
   let isValid;
   const checkValidSet = validateCards(groupOfCards, jokerCards);
   const notValidSet = checkValidSet.filter((e) => e.isValid === false);
