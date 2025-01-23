@@ -1,0 +1,561 @@
+asyncapi: 2.3.0
+info:
+  title: Rummy GamePlay Service
+  version: 1.0.0
+  description: >-
+    This service is in charge of gameplay logic, below is the card representation: <br />
+      <pre>
+      Normal Cards:
+        sA, s2, s3, … s10, sJ, sQ, sK
+        hA, h2, h3, … h10, hJ, hQ, hK
+        dA, d2, d3, … d10, dJ, dQ, dK
+        cA, c2, c3, … c10, cJ, cQ, cK
+      Jokers:
+        j1, j2
+
+      Note:
+        • (sA - Spades Ace, s2 - Spades 2)
+        • (starts with s = Spades, start with h = hearts, starts with d = Diamonds, starts with c - Club)</pre>
+
+channels:
+  config:
+    publish:
+      summary: Publish this event to get 'config' values
+      description: >-
+        <p style="overflow-wrap: anywhere;">
+        • Acknowledgement Sample: {"status":"Success","data":{"config":{"TURN_TIMER":30,"CARD_SUBMIT_TIMER":30,"GAME_INIT_COUNTDOWN_DELAY":5,"GAME_START_DELAY_SECONDS":5,"FIRST_DROP_POINTS_80":20,"MIDDLE_DROP_POINTS_80":40,"FIRST_DROP_POINTS_101":20,"MIDDLE_DROP_POINTS_101":40,"FIRST_DROP_POINTS_201":25,"MIDDLE_DROP_POINTS_201":50}}}
+        </p>
+      message:
+        $ref: "#/components/messages/Void"
+    subscribe:
+      summary: This event is published first when socket gets connected
+      message:
+        $ref: "#/components/messages/ConfigResponse"
+  waiting:
+    subscribe:
+      summary: >-
+        Emitted when new player joins and no of joined players are less than
+        required
+      message:
+        $ref: "#/components/messages/Void"
+  joined:
+    subscribe:
+      summary: Emitted when new player joins
+      message:
+        $ref: "#/components/messages/GamePlayers"
+  player-disconnected:
+    subscribe:
+      summary: Emitted when player has been disconnected to socket
+      message:
+        $ref: "#/components/messages/PlayerDisconnectedResponse"
+  player-removed:
+    subscribe:
+      summary: >-
+        Emitted when player has been disconnected to socket and did not rejoined
+        in sometime - kick out the player
+      message:
+        $ref: "#/components/messages/PlayerDisconnectedResponse"
+  game-init:
+    subscribe:
+      summary: "Emitted when all the players are joined"
+      message:
+        $ref: "#/components/messages/GameInitResponse"
+  countdown-start:
+    subscribe:
+      summary: "Emitted after few seconds of game-init event, and countdown is about to start"
+      message:
+        $ref: "#/components/messages/Void"
+  countdown:
+    subscribe:
+      summary: Emits the countdown timer in decreasing order
+      message:
+        $ref: "#/components/messages/CountdownResponse"
+  start:
+    subscribe:
+      summary: Emitted when countdown is finished and game play is started by server
+      message:
+        $ref: "#/components/messages/Void"
+  stat:
+    publish:
+      summary: >-
+        Publish this event to get 'stat' of the game at any point of time till game has been ended
+      description: >-
+        • Acknowledgement Sample (waiting stat): {"status":"Success","data":{"stat":null,"gameStatus":"waiting"}} <br />
+        • Acknowledgement Sample (started stat): {"status":"Success","data":{"stat":{"roomId":"string","rummyType":"pool","maxPoint":"101","round":1,"hasShown":false,"players":[{"userId":"1","userName":"Player1","profileImageUrl":"url","score":0,"noOfTurnsTaken":0,"cards":["sA","s2","sA","hA"],"hasDropped":false,"autoDrop":true,"isEliminated":false,"hasShown":false,"life":3}],"currentPlayer":{"userId":"1","userName":"Player1","profileImageUrl":"url","score":0,"noOfTurnsTaken":0,"cards":["sA","s2","sA","hA"],"hasDropped":false,"autoDrop":true,"isEliminated":false,"hasShown":false,"life":3},"openDeckLastCard":["d2","d3"],"hasPicked":false,"timeLeft":20,"jokerCard":"j1","jokerCards":["j1","j2","sA","hA","dA","cA","sA","hA","dA","cA"]},"gameStatus":"started"}}
+      message:
+        $ref: "#/components/messages/Void"
+    subscribe:
+      summary: >-
+        Emitted right after start of the game, or when player rejoins the socket in between the game to get current game stat
+      message:
+        $ref: "#/components/messages/Stat"
+  round-start:
+    subscribe:
+      summary: Emitted when countdown is finished and game play is started the round - only for pool rummy
+      message:
+        $ref: "#/components/messages/RoundStartResponse"
+  round-end:
+    subscribe:
+      summary: Emitted when round is finished - only for pool rummy
+      message:
+        $ref: "#/components/messages/RoundEndResponse"
+  drop:
+    publish:
+      message:
+        $ref: "#/components/messages/Void"
+    subscribe:
+      message:
+        $ref: "#/components/messages/DropResponse"
+  auto-drop:
+    publish:
+      summary: It will toggle auto drop flag for the user, can be used for i'am back button as well
+      message:
+        $ref: "#/components/messages/Void"
+  prize-split:
+    publish:
+      summary: It will toggle split prize option for the user
+      message:
+        $ref: "#/components/messages/Void"
+  current-player:
+    subscribe:
+      summary: "Emitted when player's turn has been changed"
+      message:
+        $ref: "#/components/messages/PlayerData"
+  pick:
+    publish:
+      summary: Current user can either pick open deck's card or open closed deck card
+      description: >-
+        • Acknowledgement Sample (success): {"status":"Success", "data": {"card": "h10"}} <br />
+      message:
+        $ref: "#/components/messages/PickRequest"
+    subscribe:
+      summary: Other users will subscribe this for animation purpose
+      message:
+        $ref: "#/components/messages/PickResponse"
+  discard:
+    publish:
+      summary: Current user emits the card which is discarded
+      message:
+        $ref: "#/components/messages/DiscardRequest"
+    subscribe:
+      summary: Other users will subscribe this to get new opened deck's first card
+      message:
+        $ref: "#/components/messages/DiscardResponse"
+  validate:
+    publish:
+      summary: Use this event to validate user's cards
+      description: >-
+        • Acknowledgement Sample (success): {"status":"Success", "data": {"groups":[{"groupId":"string","cards":["string"],"type":"pure-sequence","isValid":false}]} <br />
+        • possible values: pure-sequence, set, secondary-sequence
+      message:
+        $ref: "#/components/messages/ValidateRequest"
+  show:
+    publish:
+      summary: Current user emits a card for show, then he/she will submit the cards using 'submit' event
+      message:
+        $ref: "#/components/messages/ShowRequest"
+    subscribe:
+      message:
+        $ref: "#/components/messages/ShowRequest"
+  submit:
+    publish:
+      summary: >-
+        • First current player (who has shown) will submit group of cards, if it is valid/invalid server will emit submit, then other users will submit their cards. <br>
+        • If card group is not valid then server will emit this event with "isValid" as false, so that other users will continue playing the game. <br>
+        • If card group is valid then other users has to submit their cards in given time 'CARD_SUBMIT_TIMER'.
+      description: >-
+        • Acknowledgement Sample (success): {"status":"Success", "data": {"isValid": false}} <br />
+      message:
+        $ref: "#/components/messages/SubmitRequest"
+    subscribe:
+      message:
+        $ref: "#/components/messages/Players"
+  game-finished:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GameFinishedResponse"
+  timeout:
+    subscribe:
+      message:
+        $ref: "#/components/messages/TimeoutResponse"
+  leave-game:
+    publish:
+      summary: >-
+        Emitted when user wants to leave the game; user will be marked as
+        disqualified
+      description: '• Acknowledgement Sample: {"status":"Success"}'
+      message:
+        $ref: "#/components/messages/Void"
+  player-left:
+    subscribe:
+      summary: Emitted when any user leaves the game
+      message:
+        $ref: "#/components/messages/PlayerLeftResponse"
+components:
+  messages:
+    Void:
+      payload:
+        type: object
+    ConfigResponse:
+      payload:
+        type: object
+        properties:
+          config:
+            type: object
+            properties:
+              TURN_TIMER:
+                type: number
+                description: Time a user get for his move - in seconds
+              CARD_SUBMIT_TIMER:
+                type: number
+                description: Time other users will get to submit their card after current player has show a valid group of card - in seconds
+              GAME_INIT_COUNTDOWN_DELAY:
+                type: number
+                description: Delay between game-init and countdown-start events - in seconds
+              GAME_START_DELAY_SECONDS:
+                type: number
+                description: Countdown time before game start - in seconds
+              FIRST_DROP_POINTS_80:
+                type: number
+              MIDDLE_DROP_POINTS_80:
+                type: number
+              FIRST_DROP_POINTS_101:
+                type: number
+              MIDDLE_DROP_POINTS_101:
+                type: number
+              FIRST_DROP_POINTS_201:
+                type: number
+              MIDDLE_DROP_POINTS_201:
+                type: number
+    PlayerDisconnectedResponse:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+          userName:
+            type: string
+    GameInitResponse:
+      payload:
+        type: object
+        properties:
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                card:
+                  type: string
+                isFirstPlayer:
+                  type: boolean
+    CountdownResponse:
+      payload:
+        type: object
+        properties:
+          timer:
+            type: number
+            minimum: 1
+    GamePlayers:
+      payload:
+        type: object
+        properties:
+          roomId:
+            type: string
+            example: dbc6f841-4973-46b9-b89a-ebb143aad0cb
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                userName:
+                  type: string
+                profileImageUrl:
+                  type: string
+    Stat:
+      payload:
+        type: object
+        properties:
+          roomId:
+            type: string
+            example: dbc6f841-4973-46b9-b89a-ebb143aad0cb
+          rummyType:
+            type: string
+            enum:
+              - point
+              - pool
+          maxPoint:
+            type: number
+            enum:
+              - 101
+              - 201
+          round:
+            type: number
+          hasShown:
+            type: boolean
+          timeLeft:
+            type: number
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                userName:
+                  type: string
+                profileImageUrl:
+                  type: string
+                life:
+                  type: number
+                  minimum: 0
+                score:
+                  type: number
+                noOfTurnsTaken:
+                  type: number
+                cards:
+                  type: array
+                  items:
+                    type: string
+                hasDropped:
+                  type: boolean
+                autoDrop:
+                  type: boolean
+                splitPrize:
+                  type: boolean
+                  default: false
+                isEliminated:
+                  type: boolean
+                hasShown:
+                  type: boolean
+          currentPlayer:
+            type: object
+            properties:
+              userId:
+                type: string
+              userName:
+                type: string
+              profileImageUrl:
+                type: string
+              life:
+                type: number
+                minimum: 0
+              score:
+                type: number
+              noOfTurnsTaken:
+                type: number
+              cards:
+                type: array
+                items:
+                  type: string
+              hasDropped:
+                type: boolean
+              autoDrop:
+                type: boolean
+              splitPrize:
+                type: boolean
+                default: false
+              isEliminated:
+                type: boolean
+          openDeckLastCards:
+            type: array
+            items:
+              type: string
+          hasPicked:
+            type: boolean
+          jokerCard:
+            type: string
+          jokerCards:
+            type: array
+            items:
+              type: string
+    PlayerData:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+          userName:
+            type: string
+          profileImageUrl:
+            type: string
+          life:
+            type: number
+            minimum: 0
+          score:
+            type: number
+          noOfTurnsTaken:
+            type: number
+          cards:
+            type: array
+            items:
+              type: string
+          hasDropped:
+            type: boolean
+          autoDrop:
+            type: boolean
+          splitPrize:
+            type: boolean
+            default: false
+          isEliminated:
+            type: boolean
+    RoundStartResponse:
+      payload:
+        type: object
+        properties:
+          round:
+            type: number
+            minimum: 1
+    RoundEndResponse:
+      payload:
+        type: object
+        properties:
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                userName:
+                  type: string
+                profileImageUrl:
+                  type: string
+                score:
+                  type: number
+                isEliminated:
+                  type: boolean
+    DropResponse:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+    PickRequest:
+      payload:
+        type: object
+        properties:
+          deck:
+            type: string
+            enum:
+              - open
+              - close
+    PickResponse:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+          deck:
+            type: string
+            enum:
+              - open
+              - close
+    DiscardRequest:
+      payload:
+        type: object
+        properties:
+          card:
+            type: string
+    DiscardResponse:
+      payload:
+        type: object
+        properties:
+          card:
+            type: string
+    ValidateRequest:
+      payload:
+        type: object
+        properties:
+          groups:
+            type: array
+            items:
+              type: object
+              properties:
+                groupId:
+                  type: string
+                cards:
+                  type: array
+                  items:
+                    type: string
+    SubmitRequest:
+      payload:
+        type: object
+        properties:
+          groups:
+            type: array
+            items:
+              type: object
+              properties:
+                cards:
+                  type: array
+                  items:
+                    type: string
+    ShowRequest:
+      payload:
+        type: object
+        properties:
+          card:
+            type: string
+    TimeoutResponse:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+          life:
+            type: number
+            minimum: 0
+    DisqualifiedResponse:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+    PlayerLeftResponse:
+      payload:
+        type: object
+        properties:
+          player:
+            type: object
+            properties:
+              userId:
+                type: string
+              userName:
+                type: string
+    Players:
+      payload:
+        type: object
+        properties:
+          isValid:
+            type: boolean
+            description: if valid then only players array will be populated, if not valid other users will continue the game
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                userName:
+                  type: string
+                profileImageUrl:
+                  type: string
+                score:
+                  type: number
+    GameFinishedResponse:
+      payload:
+        type: object
+        properties:
+          players:
+            type: array
+            items:
+              properties:
+                userId:
+                  type: string
+                userName:
+                  type: string
+                profileImageUrl:
+                  type: string
+                score:
+                  type: number
+                hasWin:
+                  type: boolean

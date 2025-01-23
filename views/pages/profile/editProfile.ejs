@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- Responsive Table css -->
+    <link href="/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" /> <!-- Bootstrap Css -->
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="page-title-box">
+                                <h4>Profile</h4>
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="/mgp-rummy/api/admin/dashboard">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/mgp-rummy/api/admin/profile">Profile</a></li>
+                                        <li class="breadcrumb-item active">Edit-Profile</a></li>
+                                    </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+  
+                        <!-- end col -->
+                    
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <% if(message.danger){ %>
+                                        <div class="alert alert-danger" role="alert">
+                                          <%= message.danger %>
+                                        </div>
+                                        <% } %>
+                    
+                                    <form  id="editProfileForm" class="custom-validation">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <div>
+                                                <input type="text" class="form-control" required data-parsley-minlength="2" placeholder="First Name" name="firstName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <div>
+                                                <input type="text" class="form-control"  placeholder="Last Name" name="lastName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                            <div>
+                                                <input type="text" class="form-control"  placeholder="Email Address" name="email" />
+                                            </div>
+                                        </div>
+                    
+                                        <div class="form-group mb-0">
+                                            <div>
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                    Save
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+            
+                    <!-- end row -->
+                    <%- include('../../partials/footer')%>
+                </div>
+                <!-- end main content-->
+
+            </div>
+            <!-- END layout-wrapper -->
+
+            <!-- Right Sidebar -->
+            <%- include('../../partials/rightSideBar') %>
+            <!-- /Right-bar -->
+
+            <!-- Right bar overlay-->
+            <div class="rightbar-overlay"></div> 
+            
+            <!-- JAVASCRIPT -->
+            <script src="/libs/jquery/jquery.min.js"></script>
+            <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/libs/metismenu/metisMenu.min.js"></script>
+            <script src="/libs/simplebar/simplebar.min.js"></script>
+            <script src="/libs/node-waves/waves.min.js"></script>
+            <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+            <!-- Responsive Table js -->
+            <script src="/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
+
+            <!-- Init js -->
+            <script src="/js/pages/table-responsive.init.js"></script>
+
+            <!-- App js -->
+            <script src="/js/app.js"></script>
+            <script>
+                $(document).ready(function(){
+                    $('#editProfileForm').on('submit', function (e) {
+                        e.preventDefault();
+                        var formData = $(this).serialize(); // Serialize the form data
+                        $.ajax({
+                            type: 'put',
+                            url : '<%=data.url%>/mgp-rummy/api/admin/editProfile',
+                            headers:{
+                                Authorization :'Bearer <%=data.token%>',
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            data: formData,
+                            success: function (response) {
+                                console.log("response",response);
+                                if(response.code === 200){
+                                    window.location.href = '/mgp-rummy/api/admin/profile';
+
+                                }else if (response.code === 400|| response.code === 401){
+                                    // Display error message using Toastify
+                                    Toastify({
+                                        text : response.message,
+                                        close: true,
+                                        duration: 3000,
+                                        style:{
+                                            background: "red",
+                                            color: "#fff",
+                                        }
+                                    }).showToast();
+                                }
+                            },
+                            error: function() {
+                                // Handle the error case
+                                console.log('Error occurred while making the API request.');
+                            }
+                        });
+                    });
+                });
+
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    <!-- Bootstrap Css -->
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="page-title-box">
+                                <h4>Dashboard</h4>
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Golden Rummy</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Dashboard</li>
+                                    </ol>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card mini-stat bg-primary">
+                                <div class="card-body mini-stat-img">
+                                    <div class="mini-stat-icon">
+                                        <i class="mdi mdi-cube-outline float-right"></i>
+                                    </div>
+                                    <div class="text-white">
+                                        <h6 class="text-uppercase mb-3 font-size-16">Data Counters</h6>
+                                        <h2 id="counters" class="mb-4">20</h2>
+                                        <span class="badge badge-info"> +20 </span> <span class="ml-2">Total Users</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-3 col-md-6">
+                            <div class="card mini-stat bg-primary">
+                                <div class="card-body mini-stat-img">
+                                    <div class="mini-stat-icon">
+                                        <i class="mdi mdi-briefcase-check float-right"></i>
+                                    </div>
+                                    <div class="text-white">
+                                        <h6 class="text-uppercase mb-3 font-size-16">Product Sold</h6>
+                                        <h2 class="mb-4">1890</h2>
+                                        <span class="badge badge-info"> +89% </span> <span class="ml-2">From previous period</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                 
+                    <!-- end row -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">Latest User's</h4>
+
+                                    <div class="table-responsive">
+                                        <a href="/user-listing"><input class="btn btn-info" type="button" value="View All"></a> 
+                                        <hr>
+                                        <table id="latestUser" class="table  table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Profile</th>
+                                                    <th>Name </th>
+                                                    <th>Email</th>
+                                                    <th>Created At</th>
+                                                    <th>Login Type</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      
+                    </div>
+                    <!-- end row -->
+                    <%- include('../../partials/footer') %>
+                </div>
+                <!-- end main content-->
+
+            </div>
+            <!-- END layout-wrapper -->
+
+            <!-- Right Sidebar -->
+            <%- include('../../partials/rightSideBar') %>
+            <!-- /Right-bar -->
+
+            <!-- Right bar overlay-->
+            <div class="rightbar-overlay"></div> 
+            
+            <!-- JAVASCRIPT -->
+            <script src="/libs/jquery/jquery.min.js"></script>
+            <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/libs/metismenu/metisMenu.min.js"></script>
+            <script src="/libs/simplebar/simplebar.min.js"></script>
+            <script src="/libs/node-waves/waves.min.js"></script>
+            <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+            <!--Morris Chart-->
+            <script src="/libs/morris.js/morris.min.js"></script>
+            <script src="/libs/raphael/raphael.min.js"></script>
+
+            <script src="/js/pages/dashboard.init.js"></script>
+
+            <!-- App js -->
+            <script src="/js/app.js"></script>
+            <script>
+                $(document).ready(function(){
+                   var counter =
+                   $('#counters').queue({
+                        ajax:{
+                            url : '/data-counters',
+                            method: 'get'
+                        },
+                        success : function(response){
+                            console.log("response",response)
+                        }
+                   })
+                })
+            
+            
+            </script>
+            <script>
+                $(document).ready(function(){
+                    $.ajax({
+                        url : '<%= data.url %>/latest-users',
+                        headers : {
+                            Authorization : 'Bearer <%= data.token%>' ,
+
+                        },
+                        method : "GET",
+                        success:function(response){
+                            console.log("Res", response);
+                            if(response.code === 200){
+                                var users = response?.data
+                                // Get the table body element
+                                var tableBody = $('#latestUser tbody');
+
+                                // Clear any existing rows in the table
+                                tableBody.empty();
+
+                                // Iterate over the users and append rows to the table
+                                users.forEach(function(user, index) {
+                                var row = '<tr>' +
+                                    '<td>' + user.serialNo + '</td>' +
+                                    '<td>' + user.profilePic + '</td>' +
+                                    '<td>' + user.name + '</td>' +
+                                    '<td>' + user.email + '</td>' +
+                                    '<td>' + user.createdAt + '</td>' +
+                                    '<td>' + user.loginType + '</td>' +
+                                    '<td>' + user.action + '</td>' +
+                                    '</tr>';
+                                tableBody.append(row);
+                                });
+                            }
+                            else if (response.code === 400) {
+                                // Display error message using Toastify
+                                Toastify({
+                                    text : response.message,
+                                    style: {
+                                        background: "red",
+                                        color: "#fff",
+                                        fontWeight: "bold"
+                                    },
+                                    duration: 3000
+                                }).showToast();
+                            }
+                            },
+
+                        error: function() {
+                            // Handle the error case
+                            
+                            console.log('Error occurred while making the API request.');
+                        }
+                        });
+
+                })
+            </script>
+</body>
+
+</html>
+

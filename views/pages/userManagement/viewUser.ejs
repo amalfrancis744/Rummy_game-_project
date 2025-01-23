@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy  | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    
+    <!-- Datatable Css -->
+    <link href="/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- App Css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+  
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+                <div class="main-content">
+                    <div class="page-content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="page-title-box">
+                                        <h4>View User </h4>
+                                        <ol class="breadcrumb m-0" >
+                                            <li class="breadcrumb-item" style="color:rgb(61, 56, 56)"><a href="/mgp-rummy/api/admin/dashboard"></i>Dashboard</a></li>
+                                            <li class="breadcrumb-item active " style="color:rgb(61, 56, 56)"aria-current="page">
+                                                <a href="/mgp-rummy/api/admin/user-listing">
+                                                    User Management </a>
+                                            </li>
+                                            <li class="breadcrumb-item active" style="color:rgb(61, 56, 56)" aria-current="page">View User</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-xlg-3 col-md-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <center class="mt-1">
+                                                <img id="userImage" src="" class="rounded-circle img-thumb-profile2"
+                                                    style="width: 200px; height:206px" />
+                                                <i class="user_profile_card_social_icon DeviceId_icon"></i>
+                                                <h4 class="card-title mt-2"></h4>
+                                                <hr>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-xlg-9 col-md-9">
+                                    <div class="card">
+                                        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="pills-details-tab" data-toggle="pill"
+                                                    href="#pills-details-block" role="tab" aria-controls="pills-details"
+                                                    aria-selected="false">User Details</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-device-details-tab" data-toggle="pill"
+                                                    href="#pills-device-details-block" role="tab"
+                                                    aria-controls="pills-device-details" aria-selected="false">Device Information</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-login-history-tab" data-toggle="pill"
+                                                    href="#pills-login-history-block" role="tab"
+                                                    aria-controls="pills-login-history" aria-selected="false">Login History</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-game-played-tab" data-toggle="pill"
+                                                    href="#pills-game-played-block" role="tab"
+                                                    aria-controls="pills-game-played" aria-selected="false">Game Played</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-withdraw-tab" data-toggle="pill"
+                                                    href="#pills-withdraw-block" role="tab"
+                                                    aria-controls="pills-withdraw" aria-selected="false">Withdrawal</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-deposit-tab" data-toggle="pill"
+                                                    href="#pills-deposit-block" role="tab"
+                                                    aria-controls="pills-deposit" aria-selected="false">Deposit</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="pills-referral-tab" data-toggle="pill"
+                                                    href="#pills-referral-block" role="tab"
+                                                    aria-controls="pills-referral" aria-selected="false">Referral</a>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-details-block"
+                                                role="tabpanel" aria-labelledby="pills-details-block">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table id ="info" class="table singledatalisting">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th id ='player_id' class="w250">Player ID</th>
+                                                                        <td>asf</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="name" class="w250">Username</th>
+                                                                        <td>asfafs</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id='mobile_no' class="w250">Mobile No</th>
+                                                                        <td>faf</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="created_at" class="w250">Registered On</th>
+                                                                        <td>asfa</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="user_status" class="w250">Active</th>
+                                                                        <td>asfa</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          <div class="tab-pane fade" id="pills-device-details-block" role="tabpanel"
+                                                aria-labelledby="pills-device-details-block">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table singledatalisting">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th id="deviceName" class="w250">Device Name</th>
+                                                                            <td>sa</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th id="deviceModel" class="w250">Device Model</th>
+                                                                            <td>saas</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th id="ram" class="w250">RAM</th>
+                                                                            <td>sf</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th id="os" class="w250">OS</th>
+                                                                            <td>sf</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="userid" value=""> 
+                                             <div class="tab-pane fade" id="pills-login-history-block" role="tabpanel"
+                                                aria-labelledby="pills-login-history-block">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table id="loginHistoryTable" class="table  dt-responsive nowrap"
+                                                            style="border-collapse: collapse; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sr.No</th>
+                                                                    <th>OS</th>
+                                                                    <th>IP</th>
+                                                                    <th>City</th>
+                                                                    <th>State</th>
+                                                                    <th>Region</th>
+                                                                    <th>Country</th>
+                                                                    <th>Login Date</th>
+                                                                    <th>Login/Logout</th>
+                                                                    <th>Logout Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-game-played-block" role="tabpanel"
+                                                aria-labelledby="pills-game-played-block">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table id="gamePlayedTable" class="table  dt-responsive nowrap"
+                                                            style="border-collapse: collapse; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sr.No</th>
+                                                                    <th>Game ID</th>
+                                                                    <th>Game Type</th>
+                                                                    <th>Game Mode</th>
+                                                                    <th>Total Players</th>
+                                                                    <th>Table Name</th>
+                                                                    <th>Date & Time</th>
+                                                                    <th>Status(Win/Lose)</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="tab-pane fade" id="pills-withdraw-block" role="tabpanel"
+                                                aria-labelledby="pills-withdraw-block">
+                                                <div class="card-body">
+                                                    <table id="withdrawTable" class="table  dt-responsive nowrap"
+                                                        style="border-collapse: collapse; width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr.No</th>
+                                                                <th>Amount</th>
+                                                                <th>Wallet Balance</th>
+                                                                <th>Mode</th>
+                                                                <th>Date & Time</th>
+                                                                <th>Remarks</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-deposit-block" role="tabpanel"
+                                                aria-labelledby="pills-deposit-block">
+                                                <div class="card-body">
+                                                    <table id="depositTable" class="table  dt-responsive nowrap"
+                                                        style="border-collapse: collapse; width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr.No</th>
+                                                                <th>Amount</th>
+                                                                <th>Wallet Balance</th>
+                                                                <th>Mode</th>
+                                                                <th>Date & Time</th>
+                                                                <th>Remarks</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-referral-block" role="tabpanel"
+                                                aria-labelledby="pills-referral-block">
+                                                <div class="card-body">
+                                                    <table id="referralTable" class="table  dt-responsive nowrap"
+                                                        style="border-collapse: collapse; width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr.No</th>
+                                                                <th>User ID</th>
+                                                                <th>Username</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%- include('../../partials/footer') %>
+    </div>
+    </div>
+    <%- include('../../partials/rightSideBar') %>
+        <script src="/libs/jquery/jquery.min.js"></script>
+        <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/libs/metismenu/metisMenu.min.js"></script>
+        <script src="/js/pages/datatable.js"></script>
+        <script src="/js/pages/dashboard.init.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var url = window.location.pathname;
+                var id = url.substring(url.lastIndexOf('/') + 1);
+                $.ajax({
+                    url : `<%= APP_URL%>mgp-rummy/api/view-details/${id}`,
+                    method:"GET",
+                    headers:{
+                        Authorization : 'Bearer <%=data.token%>'
+                    },
+                    success:function(response){
+                        console.log("Resp",response);
+                        if(response.code === 200){
+                            var user = response.data;
+                            var tableBody = $('#info tbody');  
+
+                           // Update the table cells with the response data
+                            $('#userid').val(user._id);
+                            $('#player_id').next('td').text(user.numeric_id);
+                            $('#name').next('td').text(user.name);
+                            $('#mobile_no').next('td').text(user.mobileNumber);
+                            $('#created_at').next('td').text(user.created_at);
+                            $('#user_status').next('td').html(user.is_active);
+                            $('#userImage').attr('src', user.profilePic);
+                            $('#deviceName').next('td').text(user.deviceName);
+                            $('#deviceModel').next('td').text(user.deviceModel);
+                            $('#ram').next('td').text(user.ram);
+                            $('#os').next('td').text(user.os);                            
+                    }},
+                    error:function(res){
+                        console.log("error-->",res)
+                    }
+                })
+            })
+
+            $(document).ready(function(){
+                var url = window.location.pathname;
+                var id = url.substring(url.lastIndexOf('/') + 1);
+                
+                var t = $('#loginHistoryTable').DataTable({
+                    serverSide : true,
+                    paging:true,
+                    searching : true,
+                    serverMethod : 'get',
+                    ajax : {
+                        url : `/mgp-rummy/api/user-login-history/${id}`,
+                    },
+                    columns:[
+                    { data: "serialNo", defaultContent: '-'  },
+                    { data: "os", defaultContent: '-' },
+                    { data: "ip", defaultContent: '-' },
+                    { data: "city", defaultContent: '-' },
+                    { data: "state", defaultContent: '-' },                     
+                    { data : "region" , defaultContent:'-'},
+                    { data :'country' , defaultContent:'-'},
+                    { data :'login_date' , defaultContent:'-'},
+                    { data :'is_login' , defaultContent:'-'},
+                    { data :'logout_date' , defaultContent:'-'},
+                    ],
+                    success : function(response){
+                        console.log("Success Response",response)
+                    }
+                })                  
+            })
+
+            $(document).on("change", ".btn-status1", function (e) {
+                let id = $(this).val();
+                $.ajax({
+                    url: `/mgp-rummy/api/change-status/${id}`,
+                    method: "PUT",
+                    headers:{
+                        Authorization :'Bearer <%=data.token%>',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    success: function (response) {
+                        console.log("Resp",response);
+                        if(response.code === 200){
+                                // Display error message using Toastify
+                                Toastify({
+                                text : response.message,
+                                close: true,
+                                duration: 3000,
+                                style:{
+                                    background: "green",
+                                    color: "#fff",
+                                }
+                            }).showToast();
+                        }else if (response.code === 400|| response.code === 401){
+                            // Display error message using Toastify
+                            Toastify({
+                                text : response.message,
+                                close: true,
+                                duration: 3000,
+                                style:{
+                                    background: "red",
+                                    color: "#fff",
+                                }
+                            }).showToast();
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error",errorThrown)
+                    }
+                });
+            });
+        </script>
+    
+</body>
+
+</html>

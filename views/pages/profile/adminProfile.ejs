@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- Responsive Table css -->
+    <link href="/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" /> <!-- Bootstrap Css -->
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <style>
+        a{
+        text-decoration: none;
+        color: white;
+    }
+
+    a:hover{
+        text-decoration: none;
+        color: white;
+    }
+    </style>
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="page-title-box">
+                                <h4>Profile</h4>
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="/mgp-rummy/api/admin/dashboard">Home</a></li>
+                                        <li class="breadcrumb-item active">Profile</li>
+                                    </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+  
+                        <!-- end col -->
+                    
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                    
+                                    <!-- <h4 class="card-title">Range validation</h4>
+                                    <p class="card-title-desc">Parsley is a javascript form validation library. It helps you provide your users with feedback on their form submission before sending it to your server.</p> -->
+                                    <div class="row">
+                                        <div class="col-lg-3 col-xlg-3 col-md-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <center class="mt-1">
+                                                        <img id="userImage" src="<%= data.adminProfile%>" class="rounded-circle img-thumb-profile2"
+                                                            style="width: 200px; height:206px" />
+                                                        <i class="user_profile_card_social_icon DeviceId_icon"></i>
+                                                        <h4 class="card-title mt-2"></h4>
+                                                        <p hidden>asda</p>
+                                                        <hr>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-xlg-9 col-md-9">
+                                            <div class="card">
+                                                <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="pills-details-tab" data-toggle="pill"
+                                                            href="#pills-details-block" role="tab" aria-controls="pills-details"
+                                                            aria-selected="false">Personal Details</a>
+                                                    </li>
+                                                    <!-- <li class="nav-item">
+                                                        <a class="nav-link" id="pills-device-details-tab" data-toggle="pill"
+                                                            href="#pills-device-details-block" role="tab"
+                                                            aria-controls="pills-device-details" aria-selected="false">Device Information</a>
+                                                    </li> -->
+                                                </ul>
+                                                <div class="tab-content" id="pills-tabContent">
+                                                    <div class="tab-pane fade show active" id="pills-details-block"
+                                                        role="tabpanel" aria-labelledby="pills-details-block">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <table id ="info" class="table singledatalisting">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th id ='firstName' class="w250">First Name</th>
+                                                                                <td>asf</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th id ='lastName' class="w250">Last Name</th>
+                                                                                <td>asf</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th id="email" class="w250">Email Address</th>
+                                                                                <td>asfafs</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-0">
+                                                        <div>
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                                <a href="/mgp-rummy/api/admin/edit-profile"> Edit</a>
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                               <a href="/mgp-rummy/api/admin/change-password"> Change Password</a>
+                                                            </button>
+            
+                                                        </div>
+                                                    </div>                                               
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+            
+                    <!-- end row -->
+                    <%- include('../../partials/footer')%>
+                </div>
+                <!-- end main content-->
+
+            </div>
+            <!-- END layout-wrapper -->
+
+            <!-- Right Sidebar -->
+            <%- include('../../partials/rightSideBar') %>
+            <!-- /Right-bar -->
+
+            <!-- Right bar overlay-->
+            <div class="rightbar-overlay"></div> 
+            
+            <!-- JAVASCRIPT -->
+            <script src="/libs/jquery/jquery.min.js"></script>
+            <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/libs/metismenu/metisMenu.min.js"></script>
+            <script src="/libs/simplebar/simplebar.min.js"></script>
+            <script src="/libs/node-waves/waves.min.js"></script>
+            <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+            <!-- Responsive Table js -->
+            <script src="/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
+
+            <!-- Init js -->
+            <script src="/js/pages/table-responsive.init.js"></script>
+
+            <!-- App js -->
+            <script src="/js/app.js"></script>
+            <script>
+                $(document).ready(function(){
+                    $.ajax({
+                        url : '<%=data.url%>/mgp-rummy/api/admin/fetchProfile',
+                        method:"GET",
+                        headers:{
+                            Authorization :'Bearer <%=data.token%>'
+                        },
+                        success : function(response){
+                            console.log("response",response);
+                            var admin = response.data;
+                            if(response.code === 200){
+                                $('#firstName').next('td').text(admin.firstName)
+                                $('#lastName').next('td').text(admin.lastName)
+                                $('#email').next('td').text(admin.emailAddress)
+                            }else if(response.code === 400){
+                                  // Display error message using Toastify
+                                  Toastify({
+                                    text : response.message,
+                                    style: {
+                                        background: "red",
+                                        color: "#fff",
+                                        fontWeight: "bold"
+                                    },
+                                    duration: 3000
+                                }).showToast();
+                            }else if(response.code === 401){
+                                  // Display error message using Toastify
+                                  Toastify({
+                                    text : response.message,
+                                    style: {
+                                        background: "red",
+                                        color: "#fff",
+                                        fontWeight: "bold"
+                                    },
+                                    duration: 3000
+                                }).showToast();
+                            }
+                        }
+                    })
+                })
+            </script>
+</body>
+
+</html>

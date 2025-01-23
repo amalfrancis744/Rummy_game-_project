@@ -1,0 +1,256 @@
+swagger: "2.0"
+info:
+  description: API Doc
+  version: 1.0.0
+  title: Fruit Chop Microservice
+  contact:
+    email: sagarp@caperminttechnologies.com
+basePath: /mgp-ludo/api/v1
+# tags:
+  # - name: game
+# paths:
+  # /games:
+  #   post:
+  #     tags:
+  #       - game
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - in: body
+  #         required: true
+  #         name: body
+  #         schema:
+  #           type: object
+  #           properties:
+  #             name: 
+  #               type: string
+  #             url:
+  #               type: string
+  #             orientation:
+  #               type: string
+  #             instruction:
+  #               type: string
+  #             image:
+  #               type: string
+  #             banner:
+  #               type: string
+  #             featuredGame: 
+  #               type: boolean
+  #             status: 
+  #               type: boolean
+  #             totalPlayersToAllow: 
+  #               type: number
+  #     responses:
+  #       "200":
+  #         description: OK
+  #   get:
+  #     tags:
+  #       - game
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - in: query
+  #         name: status
+  #         required: false
+  #         type: boolean
+  #         enum:
+  #           - true
+  #           - false
+  #     responses:
+  #       "200":
+  #         description: OK
+  #         schema:
+  #           allOf:
+  #             - $ref: "#/definitions/BaseResponse"
+  #             - type: object
+  #               properties:
+  #                 result:
+  #                   allOf:
+  #                     - type: object
+  #                       properties:
+  #                         content:
+  #                           type: array
+  #                           items:
+  #                             $ref: "#/definitions/Game"                        
+  # /games/{id}:
+  #   put:
+  #     tags:
+  #       - game
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         type: string
+  #         required: true
+  #       - in: body
+  #         required: true
+  #         name: body
+  #         schema:
+  #           type: object
+  #           properties:
+  #             name: 
+  #               type: string
+  #             url:
+  #               type: string
+  #             orientation:
+  #               type: string
+  #             instruction:
+  #               type: string
+  #             image:
+  #               type: string
+  #             banner:
+  #               type: string
+  #             featuredGame: 
+  #               type: boolean
+  #             status: 
+  #               type: boolean
+  #             totalPlayersToAllow: 
+  #               type: number
+  #     responses:
+  #       "200":
+  #         description: OK
+  #   get:
+  #     tags:
+  #       - game
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         type: string
+  #         required: true
+  #     responses:
+  #       "200":
+  #         description: OK
+  #         schema:
+  #           allOf:
+  #             - $ref: "#/definitions/BaseResponse"
+  #             - type: object
+  #               properties:
+  #                 result:
+  #                   $ref:  "#/definitions/Game"
+  #   delete:
+  #     tags:
+  #       - game
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         type: string
+  #         required: true
+  #     responses:
+  #       "200":
+  #         description: OK
+  # /games/{id}/status/{status}:
+    # put:
+    #   tags:
+    #     - game
+    #   security:
+    #     - BearerAuth: []
+    #   parameters:
+    #     - in: path
+    #       name: id
+    #       type: string
+    #       required: true
+    #     - in: path
+    #       name: status
+    #       type: boolean
+    #       required: true
+    #   responses:
+    #     "200":
+    #       description: OK
+    #       schema:
+    #         allOf:
+    #           - $ref: "#/definitions/BaseResponse"
+    #           - type: object
+    #             properties:
+    #               result:
+    #                 $ref:  "#/definitions/Game"
+security:
+  - APIKeyHeader: []
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+parameters:
+  PageNo:
+    in: query
+    name: pageNo
+    required: false
+    type: integer
+    default: 1
+  PageSize:
+    in: query
+    name: pageSize
+    required: false
+    type: integer
+    default: 10
+  SortBy:
+    in: query
+    name: sortBy
+    required: false
+    type: string
+    description: Field Name
+  SortOrder:
+    in: query
+    name: sortOrder
+    required: false
+    type: string
+    enum:
+      - asc
+      - desc
+    default: desc
+definitions:
+  ErrorObject:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+  BaseResponse:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/ErrorObject"
+        description: nullable field
+      errorDescription:
+        type: string
+        description: nullable field
+  Page:
+    type: object
+    properties:
+      count:
+        type: integer
+      content:
+        type: array
+        items:
+          type: object
+  # Game:
+  #   type: object
+  #   properties:
+  #     _id:
+  #       type: string
+  #     name: 
+  #       type: string
+  #     url:
+  #       type: string
+  #     orientation:
+  #       type: string
+  #     instruction:
+  #       type: string
+  #     image:
+  #       type: string
+  #     banner:
+  #       type: string
+  #     featuredGame: 
+  #       type: boolean
+  #     status: 
+  #       type: boolean
+  #     totalPlayersToAllow: 
+  #       type: number

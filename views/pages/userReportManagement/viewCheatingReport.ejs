@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy  | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    
+    <!-- Datatable Css -->
+    <link href="/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- App Css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+  
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+                <div class="main-content">
+                    <div class="page-content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="page-title-box">
+                                        <h4>View Report </h4>
+                                        <ol class="breadcrumb m-0" >
+                                            <li class="breadcrumb-item" style="color:rgb(61, 56, 56)"><a href="/mgp-rummy/api/admin/dashboard"></i>Dashboard</a></li>
+                                            <li class="breadcrumb-item active " style="color:rgb(61, 56, 56)"aria-current="page">
+                                                <a href="/mgp-rummy/api/admin/user-report-management">
+                                                    User Report Management </a>
+                                            </li>
+                                            <li class="breadcrumb-item active" style="color:rgb(61, 56, 56)" aria-current="page">View Report</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-xlg-12 col-md-12">
+                                    <div class="card">
+                                        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="pills-details-tab" data-toggle="pill"
+                                                    href="#pills-details-block" role="tab" aria-controls="pills-details"
+                                                    aria-selected="false">View More</a>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-details-block"
+                                                role="tabpanel" aria-labelledby="pills-details-block">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table id ="info" class="table singledatalisting">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th id ='user_id' class="w250">User ID</th>
+                                                                        <td>user_id</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="username" class="w250">Username</th>
+                                                                        <td>username</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id='reported_by' class="w250">Reported By</th>
+                                                                        <td>reported_by</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="reason" class="w250">Reason</th>
+                                                                        <td>reason</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="game_id" class="w250">Game ID</th>
+                                                                        <td>game_id</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="game_mode" class="w250">Game Mode</th>
+                                                                        <td>game_mode</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="table_name" class="w250">Table Name</th>
+                                                                        <td>table_name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="total_players" class="w250">Total Players</th>
+                                                                        <td>total_players</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="warning" class="w250">Warning</th>
+                                                                        <td>game_id</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th id="action" class="w250">Action</th>
+                                                                        <td>game_id</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%- include('../../partials/footer') %>
+    </div>
+    </div>
+    <%- include('../../partials/rightSideBar') %>
+        <script src="/libs/jquery/jquery.min.js"></script>
+        <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/libs/metismenu/metisMenu.min.js"></script>
+        <script src="/js/pages/datatable.js"></script>
+        <script src="/js/pages/dashboard.init.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var url = window.location.pathname;
+                var id = url.substring(url.lastIndexOf('/') + 1);
+                $.ajax({
+                    url : `<%= APP_URL%>mgp-rummy/api/view-report-details/${id}`,
+                    method:"GET",
+                    headers:{
+                        Authorization : 'Bearer <%=data.token%>'
+                    },
+                    success:function(response){
+                        console.log("Resp",response);
+                        if(response.code === 200){
+                            var report = response.data;
+                            var tableBody = $('#info tbody');  
+
+                           // Update the table cells with the response data
+                            // $('#userid').val(user._id);
+                            $('#user_id').next('td').text(report.userId);
+                            $('#username').next('td').text(report.username);
+                            $('#reported_by').next('td').text(report.reported_by);
+                            $('#reason').next('td').text(report.reason);
+                            $('#game_id').next('td').text(report.gameId);
+                            $('#game_mode').next('td').text(report.game_mode);
+                            $('#table_name').next('td').text(report.table_name);
+                            $('#total_players').next('td').text(report.total_players);
+                            $('#warning').next('td').text(report.warning);
+                            $('#action').next('td').text(report.action);                            
+                    }},
+                    error:function(res){
+                        console.log("error-->",res)
+                    }
+                })
+            })
+
+            $(document).ready(function(){
+                var url = window.location.pathname;
+                var id = url.substring(url.lastIndexOf('/') + 1);
+                
+                var t = $('#loginHistoryTable').DataTable({
+                    serverSide : true,
+                    paging:true,
+                    searching : true,
+                    serverMethod : 'get',
+                    ajax : {
+                        url : `/mgp-rummy/api/user-login-history/${id}`,
+                    },
+                    columns:[
+                    { data: "serialNo", defaultContent: '-'  },
+                    { data: "os", defaultContent: '-' },
+                    { data: "ip", defaultContent: '-' },
+                    { data: "city", defaultContent: '-' },
+                    { data: "state", defaultContent: '-' },                     
+                    { data : "region" , defaultContent:'-'},
+                    { data :'country' , defaultContent:'-'},
+                    { data :'login_date' , defaultContent:'-'},
+                    { data :'is_login' , defaultContent:'-'},
+                    { data :'logout_date' , defaultContent:'-'},
+                    ],
+                    success : function(response){
+                        console.log("Success Response",response)
+                    }
+                })                  
+            })
+
+            $(document).on("change", ".btn-status1", function (e) {
+                let id = $(this).val();
+                $.ajax({
+                    url: `/mgp-rummy/api/change-status/${id}`,
+                    method: "PUT",
+                    headers:{
+                        Authorization :'Bearer <%=data.token%>',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    success: function (response) {
+                        console.log("Resp",response);
+                        if(response.code === 200){
+                                // Display error message using Toastify
+                                Toastify({
+                                text : response.message,
+                                close: true,
+                                duration: 3000,
+                                style:{
+                                    background: "green",
+                                    color: "#fff",
+                                }
+                            }).showToast();
+                        }else if (response.code === 400|| response.code === 401){
+                            // Display error message using Toastify
+                            Toastify({
+                                text : response.message,
+                                close: true,
+                                duration: 3000,
+                                style:{
+                                    background: "red",
+                                    color: "#fff",
+                                }
+                            }).showToast();
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error",errorThrown)
+                    }
+                });
+            });
+        </script>
+    
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Golden Rummy | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- DataTables -->
+    <link href="/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Responsive datatable examples -->
+    <link href="/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" /> 
+    
+    <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- App Css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+    <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/datatable.css">
+    
+    <style>
+        .tableHover :hover{
+            background-color: hsla(0, 0%, 98%, 0.35);
+        }
+    </style>
+
+</head>
+
+
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <%- include('../../partials/header') %>
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <%- include('../../partials/sideBar') %>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="page-title-box">
+                                <h4>Edit-Entry-Fees</h4>
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="/mgp-rummy/api/admin/dashboard">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/mgp-rummy/api/admin/table-management">Table-listing</a></li>
+                                        <li class="breadcrumb-item active">Edit-Entry-Fees</a></li>
+                                    </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+  
+                        <!-- end col -->
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="updateTableForm" action="#" class="custom-validation">
+                                        <div style="font-size: 16px;">Note: '<span style="color:red">*</span>' indicates mandatory fields.</div>
+                                        <div class="form-group mt-4">
+                                            <label for="gameMode">Select Game Mode: </label><span style="color:red">*</span>
+                                            <select id="gameMode" name="gameMode" class="form-control d-inline-block w150 mr-3 mb-1">
+                                                <option value="ONLINE RUMMY" <% if(data.tableData.game_mode == 'ONLINE RUMMY'){ %>selected <%}%>>Online Rummy</option>
+                                                <option value="TOURNAMENT" <% if(data.tableData.game_mode == 'TOURNAMENT'){ %>selected <%}%>>Tournament</option>
+                                                <option value="PLAY WITH FRIEND/PRIVATE TABLE" <% if(data.tableData.game_mode == 'PLAY WITH FRIEND/PRIVATE TABLE'){ %>selected <%}%>>Play with friend/Private Table</option>
+                                                <option value="PLAY WITH COMPUTER" <% if(data.tableData.game_mode == 'PLAY WITH COMPUTER'){ %>selected <%}%>>Play with Computer</option>
+                                                <option value="PLAY OFFLINE" <% if(data.tableData.game_mode == 'PLAY OFFLINE'){ %>selected <%}%>>Play Offline</option>
+                                                <option value="BEST OF 2" <% if(data.tableData.game_mode == 'BEST OF 2'){ %>selected <%}%>>Best of 2</option>
+                                                <option value="BEST OF 3" <% if(data.tableData.game_mode == 'BEST OF 3'){ %>selected <%}%>>Best of 3</option>
+                                                <option value="GUNSHOT" <% if(data.tableData.game_mode == 'GUNSHOT'){ %>selected <%}%>>Gunshot</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="gameplayType">Select Game: </label><span style="color:red">*</span>
+                                            <select id="gameplayType" name="gameplayType" class="form-control d-inline-block w150 mr-3 mb-1">
+                                                <option value="point" <% if(data.tableData.rummy_type == 'point'){ %>selected <%}%>>Point Rummy</option>
+                                                <option value="pool" <% if(data.tableData.rummy_type == 'pool'){ %>selected <%}%>>Pool Rummy</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group mt-3 rummyPoints" style="display: <%= data.tableData.rummy_type == 'pool' ? 'block ! important;':'none ! important;' %>">
+                                            <label for="rummyPoints">Select Game Type: </label><span style="color:red">*</span>
+                                            <select id="rummyPoints" name="rummyPoints" class="form-control">
+                                                <option value="101" <% if(data.tableData.rummy_points == '101'){ %>selected <%}%>>101</option>
+                                                <option value="201" <% if(data.tableData.rummy_points == '201'){ %>selected <%}%>>201</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="pointValue">Point Value</label><span style="color:red">*</span>
+                                            <div>
+                                                <input id="pointValue" name="pointValue" type="text" value="<%=data.tableData.point_value%>"  class="form-control"  placeholder="Enter Point Value" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="entryFee">Entry Fee</label><span style="color:red">*</span>
+                                            <div>
+                                                <input id="entryFee" name="entryFee" type="number" value="<%=data.tableData.entry_fee%>" class="form-control"  placeholder="Enter a Entry fee" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="totalPlayer">Total Players</label><span style="color:red">*</span>
+                                            <div>
+                                                <input id="totalPlayer" name="totalPlayer" type="number" value="<%=data.tableData.no_of_players%>" class="form-control"  placeholder="Enter total players" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="adminCommission">Admin Commission (In %)</label><span style="color:red">*</span>
+                                            <div>
+                                                <input id="adminCommission" name="adminCommission" type="number" value="<%=data.tableData.admin_commission%>" class="form-control"  placeholder="Enter Admin Commission" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="winningAmount">Winning Amount</label><span style="color:red">*</span>
+                                            <div>
+                                                <input id="winningAmount" name="winningAmount" type="number" value="<%=data.tableData.win_amount%>" class="form-control" placeholder="Winning Amount" disabled/>
+                                            </div>
+                                        </div>
+                                        
+                                        <input type="hidden" name="tableId" id="tableId" value="<%=data.tableData._id%>">
+
+                                        <!-- Hidden input to store the winning amount -->
+                                        <input type="hidden" name="hiddenWinningAmount" id="hiddenWinningAmount" value="<%=data.tableData.win_amount%>">
+                    
+                                        <div class="form-group mb-0">
+                                            <div>
+                                                <button id="submitBtn" type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                    Update
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+            
+                    <!-- end row -->
+                    <%- include('../../partials/footer')%>
+                </div>
+                <!-- end main content-->
+
+            </div>
+            <!-- END layout-wrapper -->
+
+            <!-- Right Sidebar -->
+            <%- include('../../partials/rightSideBar') %>
+            <!-- /Right-bar -->
+
+            <!-- Right bar overlay-->
+            <div class="rightbar-overlay"></div> 
+        
+            <!-- JAVASCRIPT -->
+            <script src="/libs/jquery/jquery.min.js"></script>
+            <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/libs/metismenu/metisMenu.min.js"></script>
+            <script src="/libs/simplebar/simplebar.min.js"></script>
+            <script src="/libs/node-waves/waves.min.js"></script>
+            <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+            <!-- Responsive Table js -->
+            <script src="/js/pages/datatable.js"></script>
+
+            <!-- App js -->
+            <script src="/js/app.js"></script>
+            <script>
+                $("#gameplayType").on("change", function () {
+                    var type = $(this).val();
+                    console.log(type)
+                    if (type == "pool") 
+                        $(".rummyPoints").show();
+                    else 
+                        $(".rummyPoints").hide();
+                });
+                $(document).ready(function () {
+                    $("#entryFee, #totalPlayer, #adminCommission").on("input", function () {
+                        calculateWinningAmount();
+                    });
+                });
+                function calculateWinningAmount() {
+                    const entryFee = parseInt($("#entryFee").val());
+                    const totalPlayers = parseInt($("#totalPlayer").val());
+                    const adminCommission = parseFloat($("#adminCommission").val());
+                    console.log(adminCommission)
+                    // Check if both entry fee and total players are valid numbers
+                    if (!isNaN(entryFee) && !isNaN(totalPlayers) && !isNaN(adminCommission)) {
+                        var winningAmount = entryFee * totalPlayers;
+                        const commissionAmount = (winningAmount * adminCommission) / 100;
+                        winningAmount = winningAmount - commissionAmount
+                        console.log(winningAmount);
+                        $("#winningAmount").val(winningAmount);
+                        $("#hiddenWinningAmount").val(winningAmount);
+                    }
+                }
+
+                $(document).ready(function(){
+                    $('#updateTableForm').on('submit', function (e) {
+                        e.preventDefault();
+                        var formData = $(this).serialize(); // Serialize the form data
+                        $.ajax({
+                            type: 'put',
+                            url : '<%=data.admin.url%>/mgp-rummy/api/updateTable',
+                            headers:{
+                                Authorization :'Bearer <%=data.admin.token%>',
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            data: formData,
+                            success: function (response) {
+                                console.log("response",response);
+                                if(response.code === 200){
+                                    window.location.href = '/mgp-rummy/api/admin/table-management';
+
+                                }else if (response.code === 400|| response.code === 401){
+                                    // Display error message using Toastify
+                                    Toastify({
+                                        text : response.message,
+                                        close: true,
+                                        duration: 3000,
+                                        style:{
+                                            background: "red",
+                                            color: "#fff",
+                                            fontWeight: "bold"
+                                        }
+                                    }).showToast();
+                                }
+                            },
+                            error: function() {
+                                // Handle the error case
+                                console.log('Error occurred while making the API request.');
+                            }
+                        });
+                    });
+                });
+
+            </script>
+          
+</body>
+
+</html>
